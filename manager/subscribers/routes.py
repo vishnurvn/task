@@ -61,6 +61,10 @@ def subscribe():
     try:
         request_data = request.json
         user = Subscribers.query.filter_by(email=request_data['email']).first()
+        if not email_validator(request_data['email']):
+            return jsonify({
+                'message': 'invalid email'
+            })
         if user is None:
             new_user = Subscribers(email=request_data['email'],
                                    first_name=request_data['first_name'])

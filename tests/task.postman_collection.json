@@ -261,6 +261,66 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Subscribe with invalid email",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7aaf25b3-4eb5-4a30-932b-7493d667481b",
+						"exec": [
+							"pm.test(\"Test to have 200 response and valid json body\", function(){",
+							"    pm.response.to.have.status(200);",
+							"    pm.response.to.be.withBody;",
+							"    pm.response.to.be.json",
+							"})",
+							"",
+							"pm.test(\"Test to have message invalid email\", function(){",
+							"    let jsonData = pm.response.json()",
+							"    pm.expect(jsonData['message'] === \"invalid email\")",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\": \"vishnunilamb.com\",\n\t\"first_name\": \"vishnu\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/subscribe",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"subscribe"
+					]
+				},
+				"description": "Invalid email in body"
+			},
+			"response": []
 		}
 	]
 }
