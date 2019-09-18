@@ -1,0 +1,266 @@
+{
+	"info": {
+		"_postman_id": "4947548b-c0c4-4209-9d3a-fe0120b35f42",
+		"name": "task",
+		"description": "Admin collection: Includes api tests for getting the list of users and books available.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Add and subscribe user",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "e412175e-1f3d-4c5a-86ae-980d921c7291",
+						"exec": [
+							"console.log('Executing scripts')"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "01a39ff8-d4b6-40fe-b0ee-834ad14a5999",
+						"exec": [
+							"pm.test(\"Test to have 200 response and valid json body\", function(){",
+							"    pm.response.to.have.status(200);",
+							"    pm.response.to.be.withBody;",
+							"    pm.response.to.be.json",
+							"})",
+							"",
+							"pm.test(\"Test to have message user added successfully\", function(){",
+							"    let jsonData = pm.response.json()",
+							"    pm.expect(jsonData['message'] === \"user subscribed successfully\")",
+							"})",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\": \"vishnunilambur@gmail.com\",\n\t\"first_name\": \"vishnu\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/subscribe",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"subscribe"
+					]
+				},
+				"description": "Get first page of the list of users."
+			},
+			"response": []
+		},
+		{
+			"name": "Add user with no body",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b9363cdd-0e8a-453f-962b-43d9ee2989fb",
+						"exec": [
+							"pm.test(\"Test to have 200 response and valid json body\", function(){",
+							"    pm.response.to.have.status(200);",
+							"    pm.response.to.be.withBody;",
+							"    pm.response.to.be.json",
+							"})",
+							"",
+							"pm.test(\"Test to have message details missing\", function(){",
+							"    let jsonData = pm.response.json()",
+							"    pm.expect(jsonData['message'] === \"email or first_name not provided\")",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/subscribe",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"subscribe"
+					]
+				},
+				"description": "No body will be sent in the request."
+			},
+			"response": []
+		},
+		{
+			"name": "Unsubscribe user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2c7c6937-2022-40b9-a5b6-6534e5c14cb3",
+						"exec": [
+							"pm.test(\"Test to have 200 response and valid json body\", function(){",
+							"    pm.response.to.have.status(200);",
+							"    pm.response.to.be.withBody;",
+							"    pm.response.to.be.json",
+							"})",
+							"",
+							"pm.test(\"Test to have message user unsubscribed successfully\", function(){",
+							"    let jsonData = pm.response.json()",
+							"    pm.expect(jsonData['message'] === \"user successfully unsubscribed\")",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/unsubscribe?email=vishnunilambur@gmail.com",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"unsubscribe"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "vishnunilambur@gmail.com"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Unsubscribe non existent user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2c7c6937-2022-40b9-a5b6-6534e5c14cb3",
+						"exec": [
+							"pm.test(\"Test to have 200 response and valid json body\", function(){",
+							"    pm.response.to.have.status(200);",
+							"    pm.response.to.be.withBody;",
+							"    pm.response.to.be.json",
+							"})",
+							"",
+							"pm.test(\"Test to have message user nonexistent\", function(){",
+							"    let jsonData = pm.response.json()",
+							"    pm.expect(jsonData['message'] === \"no such user exist\")",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/unsubscribe?email=ambur@gmail.com",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"unsubscribe"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "ambur@gmail.com"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Unsubscribe without url params",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9b9e46d6-eef1-4ac2-9820-51265e8b7404",
+						"exec": [
+							"pm.test(\"Test to have 200 response and valid json body\", function(){",
+							"    pm.response.to.have.status(200);",
+							"    pm.response.to.be.withBody;",
+							"    pm.response.to.be.json",
+							"})",
+							"",
+							"pm.test(\"Test to have message user not specified\", function(){",
+							"    let jsonData = pm.response.json()",
+							"    pm.expect(jsonData['message'] === \"no user specified\")",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/unsubscribe",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"unsubscribe"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
